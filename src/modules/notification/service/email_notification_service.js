@@ -7,11 +7,9 @@ module.exports = define('emailNotificationService', ({
   constants: {
     NOTIFICATION_TYPES: {
       EMAIL_NOTIFICATION
-    },
-    RUNTIME_ERROR
+    }
   },
   eventService: {
-    publishAppEvent,
     subscribeToAppEvent
   }
 }) => {
@@ -21,9 +19,8 @@ module.exports = define('emailNotificationService', ({
 
   const sendEmailNotification = async ({ eventName, data }) => {
     try {
-      const { notificationData } = data
       // TODO: Handle Multiple Email service Provider in switch case eg. by country code in data
-      const response = await dummyEmailServiceProvider.sendEmail(notificationData)
+      const response = await dummyEmailServiceProvider.sendEmail(data)
       return response
     } catch (error) {
       logger.error(` Error in ${eventName} :: data ${JSON.stringify(data)} `, error)

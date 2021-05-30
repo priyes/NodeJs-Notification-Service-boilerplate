@@ -126,7 +126,7 @@ module.exports = define('eventService', ({
           }
         }
         const pFn = new Proxy(fn, handlerOpt)
-        await eventInstance.subscribeEvent(eventName, data => pFn({ eventName, data })).catch(e => {
+        await eventInstance.subscribeEvent(eventName, async data => pFn({ eventName, data })).catch(e => {
           logger.info(`Failed to subscribe eventName :: ${eventName}, Error ::`, e)
         })
       })

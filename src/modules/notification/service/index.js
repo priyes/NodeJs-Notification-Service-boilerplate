@@ -7,6 +7,14 @@ module.exports = define('notificationService', ({
   constants: {
     EVENT_TYPES: {
       NOTIFICATION_EVENT
+    },
+    NOTIFICATION_CHANNELS: {
+      EMAIL,
+      SMS
+    },
+    NOTIFICATION_TYPES: {
+      EMAIL_NOTIFICATION,
+      SMS_NOTIFICATION
     }
   },
   eventService: {
@@ -18,9 +26,21 @@ module.exports = define('notificationService', ({
   /*                               Private Methods                              */
   /* -------------------------------------------------------------------------- */
 
-  const _publishNotificationToChannel = (listOfNotifications, data) => {
-    return Promise.allSettled(listOfNotifications.map(async (notificationConfig) => {
-      publishAppEvent(notificationConfig.channelName, data)
+  const _mapChannelToNotificationEvent = channelName => {
+    switch (channelName) {
+      case EMAIL:
+        return EMAIL_NOTIFICATION
+      case SMS:
+        return SMS_NOTIFICATION
+      default:
+        return null
+    }
+  }
+
+  const _publishNotificationToChannel = async (listOfNotifications, data) => {
+    return Promise.allSettled(listOfNotifications.map(async notificationConfig => {
+      const notificationEventName = _mapChannelToNotificationEvent(notificationConfig.notificationChannel)
+      notificationEventName && await publishAppEvent(notificationEventName, data)
     }))
   }
 
@@ -31,16 +51,14 @@ module.exports = define('notificationService', ({
   const sendNotification = async ({ eventName, data }) => {
     try {
       const { notificationName, notificationData } = data
-      const listOfNotifications = notificationConfigRepository.getAllNotificationConfig({ notificationName })
-
+      const listOfNotifications = await notificationConfigRepository.getAllNotificationConfig({ notificationName })
       if (!listOfNotifications.length) return logger.warn(` No Notification Configured For notificationName: ${notificationName}`)
-
-      return _publishNotificationToChannel(listOfNotifications, notificationData)
+      await _publishNotificationToChannel(listOfNotifications, notificationData)
     } catch (error) {
       logger.error(` Error in ${eventName} :: data ${JSON.stringify(data)} `, error)
     }
   }
-
+  // sendNotification({ eventName: 'USER_REGISTERED', data: { } })
   return {
     sendNotification: subscribeToAppEvent(NOTIFICATION_EVENT, sendNotification)
   }

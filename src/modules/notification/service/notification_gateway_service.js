@@ -38,8 +38,7 @@ module.exports = define('notificationGatewayService', ({
    * @param  {object} data
    * @param  {string} triggerType
    */
-  const sendNotificationCommand = async (notificationName, data = {}, triggerType) => {
-
+  const sendNotificationCommand = async (notificationName, data = {}, triggerType = 'EVENT') => {
     _validateNotificationCommand(notificationName, data, triggerType)
 
     return _publishNotificationCommand({

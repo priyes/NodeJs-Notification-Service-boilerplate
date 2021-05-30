@@ -4,7 +4,6 @@ const container = require('../../../container')
 
 module.exports = () => {
   const router = Router()
-  console.log(container)
   const { userService, userContextMiddleware, logger, response: { Success } } = container.cradle
 
   router.post('/', userContextMiddleware, async (req, res, next) => {

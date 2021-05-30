@@ -3,7 +3,8 @@ import {
 } from 'src/containerHelper'
 module.exports = define('userService', ({
   userRepository,
-  logger,
+  notificationService,
+  emailNotificationService,
   constants: {
     events: {
       user: {
@@ -12,16 +13,16 @@ module.exports = define('userService', ({
       }
     }
   },
-  eventService: {
-    publishAppEvent
+  notificationGatewayService: {
+    sendNotificationCommand
   }
 }) => {
   /* -------------------------------------------------------------------------- */
   /*                               Private Methods                              */
   /* -------------------------------------------------------------------------- */
 
-  const _publishUserRegisteredEvent = userEntity => publishAppEvent(USER_REGISTERED, userEntity)
-  const _publishUserUpdatedEvent = userEntity => publishAppEvent(USER_UPDATED, userEntity)
+  const _publishUserRegisteredEvent = userEntity => sendNotificationCommand(USER_REGISTERED, userEntity)
+  const _publishUserUpdatedEvent = userEntity => sendNotificationCommand(USER_UPDATED, userEntity)
 
   /* -------------------------------------------------------------------------- */
   /*                               User Service Methods                         */

@@ -9,11 +9,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: false
       },
-      notification_name: {
+      notificationName: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      notification_channel: {
+      notificationChannel: {
         type: DataTypes.STRING,
         allowNull: false
       },
