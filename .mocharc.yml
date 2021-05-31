@@ -1,5 +1,5 @@
 require: ['@babel/register', 'test/setup']
 reporter: [spec]
-# spec: ['test/**/*.spec.js']
+spec: ['test/**/*.spec.js']
 timeout: [30000000]
-app: 'tr-backend'
+app: 'notification-service'

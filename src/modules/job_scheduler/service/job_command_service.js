@@ -17,7 +17,7 @@ module.exports = define('jobCommandService', ({
    * Test Job Event
    * Uncomment after running migration
    */
-  // subscribeToJobEvent('hello_world_event', async (eventName, data) => { console.log(eventName, data) })
+  subscribeToJobEvent('hello_world_event', async (eventName, data) => { console.log(eventName, data) })
 
   return {
     sendCommand

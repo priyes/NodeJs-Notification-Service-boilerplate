@@ -11,9 +11,11 @@ module.exports = () => {
     }
     async publishEvent (eventName, message) {
       this.emit(eventName, message)
+      return true
     }
     async subscribeEvent (eventName, fn) {
       this.on(eventName, fn)
+      return true
     }
     async unSubscribeEvent (eventName, fn) {
       this.off(eventName, fn)

@@ -7,27 +7,10 @@
     "node": ">=9",
     "npm": ">=5"
   },
-  "jest": {
-    "verbose": true,
-    "testEnvironment": "node",
-    "setupFilesAfterEnv": [
-      "@babel/preset-env",
-      "@babel/register",
-      "./test/setup.js"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "modulePaths": [
-      "."
-    ],
-    "testPathIgnorePatterns": [
-      "config"
-    ]
-  },
   "scripts": {
     "start": "NODE_PATH=. node start.js",
-    "start_dev": "NODE_PATH=. NODE_ENV=development nodemon start.js"
+    "start_dev": "NODE_PATH=. NODE_ENV=development nodemon start.js",
+    "test:specs": "cross-env NODE_PATH=. NODE_ENV=test mocha --exit"
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
